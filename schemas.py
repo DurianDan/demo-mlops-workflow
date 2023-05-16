@@ -1,6 +1,10 @@
 from pydantic import BaseModel
 from typing import List, Any, Dict, Union
 
+class Prob1Table(BaseModel):
+    
+
+
 class ToPredictSchema(BaseModel):
     '''Data Scheme of the Request Body, that will be received by /predict/ route
 
@@ -11,6 +15,7 @@ class ToPredictSchema(BaseModel):
     id: int
     rows: List[str]
     columns: List[List[Union[None,float]]]
+
 
 class DonePredictSchema(BaseModel):
     '''Data Scheme of the Response Body, that will be sent from /predict/ route

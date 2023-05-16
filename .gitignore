@@ -3,3 +3,4 @@ test.py
 __pycache__
 credentials.yaml
 core
+.vscode
