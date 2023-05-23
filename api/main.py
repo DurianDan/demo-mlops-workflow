@@ -14,7 +14,6 @@ app = FastAPI()
 model_creator = ModelCreator()
 
 @app.post("/phase-{phase_id}/prob-{prob_id}/predict")
-async def recieve(phase_id: int, prob_id: int, request: Request):
-    body = await request.json()
-    scheme = RequestSchema(**body)
-    model = model_creator.create_model(phase_id, prob_id)
+async def recieve(phase_id: int, prob_id: int, request_data: RequestSchema):
+    api_model = model_creator.create_model(phase_id, prob_id)
+    instance = api_model(request_data.row)

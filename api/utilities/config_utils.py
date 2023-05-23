@@ -35,5 +35,6 @@ def db_uri(
     password: str,
     host: str,
     name: str,
+    port: str
 ) -> str:
-    return f"{type}://{username}:{password}@{host}/{name}"
+    return f"{type}://{username}:{password}@{host}:{port}/{name}"

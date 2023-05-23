@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, Float, Boolean
-from .base import Base
+from .base import ProblemBase, Base
 
 
 class NewProblem(Base):
@@ -10,10 +10,9 @@ class NewProblem(Base):
     # request_id = 
 
 
-class Prob1Table(Base):
+class Prob1Table(ProblemBase):
     __tablename__ = '1.1.FraudDetection'
 
-    id = Column(Integer, primary_key=True, index=True)
     job = Column(String)
     category = Column(String)
     amt = Column(Float)
@@ -33,10 +32,9 @@ class Prob1Table(Base):
     time_since_last = Column(Float)
 
 
-class Prob2Table(Base):
+class Prob2Table(ProblemBase):
     __tablename__ = '1.2.SalaryPrediction'
 
-    id = Column(Integer, primary_key=True, index=True)
     work_year = Column(Integer)
     experience_level = Column(String)
     employment_type = Column(String)
