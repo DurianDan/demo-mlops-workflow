@@ -12,5 +12,3 @@ session_local = sessionmaker(
     autoflush=False,  # not flush pending changes to the database => more control => more errors-prone
     bind=engine,  # connect to the database through the var `engine`
 )
-
-Base = declarative_base()  # base for the fastAPI models
