@@ -1,6 +1,6 @@
 FROM python:3.9.13-bullseye
 
-WORKDIR /app
+COPY api api
 
 COPY requirements.txt requirements.txt
 
@@ -9,4 +9,4 @@ RUN apt update -y && \
 
 RUN pip3 install -r requirements.txt
 
-CMD [ "uvicorn", "main.py", "--reload" ]
+CMD [ "uvicorn", "api:main", "--reload" ]

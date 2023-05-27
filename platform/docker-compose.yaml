@@ -1,0 +1,44 @@
+version: '3'
+services:
+  postgres:
+    image: postgres
+    restart: always
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: wakandata
+      POSTGRES_PASSWORD: wakandata
+      POSTGRES_DB: mlopsvn-marathon
+    ports:
+      - 5432:5432
+    network_mode: host
+
+  fastapi:
+    build:
+      context: .
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    ports:
+      - 8000:8000
+    environment:
+        API_DB_TYPE: postgresql
+        API_DB_USERNAME: wakandata
+        API_DB_PASSWORD: wakandata
+        API_DB_HOST: "localhost"
+        API_DB_NAME: mlopsvn-marathon
+        API_DB_PORT: "5432"
+  
+  # grafana:
+  #   image: grafana/grafana:8.2.0
+  #   ports:
+  #     - 3000:3000
+  #   depends_on:
+  #     - postgres
+  #   environment:
+  #     - GF_AUTH_ANONYMOUS_ENABLED=true
+  #     - GF_INSTALL_PLUGINS=innius-video-panel
+  #   volumes:
+  #     - /var/lib/grafana-storage:/var/lib/grafana
+  #   user: "1000"
+    

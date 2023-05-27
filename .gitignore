@@ -3,6 +3,7 @@
 dumb/
 dumb.py
 platform/postgreSQL/sample.docker-compose.yaml
+data/
 
 # .gitignore template from https://github.com/github/gitignore/blob/main/Python.gitignore
 # Byte-compiled / optimized / DLL files

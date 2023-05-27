@@ -1,9 +1,9 @@
 from fastapi import FastAPI, Request
-from db import engine, session_local
+from .db import engine, session_local
 
-from problem.api_models import Base
-from problem.api_models.factory import ModelCreator
-from problem.schema import RequestSchema
+from .problem.api_models import Base
+from .problem.api_models.factory import ModelCreator
+from .problem.schema import RequestSchema
 
 
 Base.metadata.create_all(

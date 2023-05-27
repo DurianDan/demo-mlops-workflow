@@ -1,0 +1,50 @@
+services:
+  grafana:
+    image: grafana/grafana:8.2.0
+    ports:
+      - 3000:3000
+    depends_on:
+      - influx
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_INSTALL_PLUGINS=innius-video-panel
+    volumes:
+      - ./data/grafana:/var/lib/grafana
+    user: "1000"
+
+  rtsp:
+    image: aler9/rtsp-simple-server
+    ports:
+      - 8888:8888
+      - 8554:8554
+    environment:
+      - RTSP_PATHS_PROXY_SOURCE=${INPUT_STREAM}
+      - RTSP_PATHS_STREAM_RUNONREADY=ffmpeg -i ${INPUT_STREAM} -hls_time 3 -hls_wrap 10 stream/streaming.m3u8
+
+  influx:
+    image: influxdb
+    ports:
+      - 8086:8086
+    volumes:
+      - ./data/influx:/var/lib/influxdb
+      - ./data/influx2:/var/lib/influxdb2
+      - ./data/influxdb.conf:/etc/influxdb/influxdb.conf
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=password
+      - DOCKER_INFLUXDB_INIT_ORG=org
+      - DOCKER_INFLUXDB_INIT_BUCKET=measurements
+      - DOCKER_INFLUXDB_INIT_RETENTION=1w
+
+  inference:
+    build:
+      dockerfile: ./deployment/inference_service/Dockerfile
+      context: ..
+    restart: unless-stopped
+    environment:
+      - INFERENCE_DB_TOKEN=${INFLUX_TOKEN}
+      - INFERENCE_DB_URL=http://influx:8086
+      - INFERENCE_DB_ORG=org
+      - INFERENCE_DB_BUCKET=measurements
+      - INPUT_STREAM=rtsp://rtsp:8554/proxy
