@@ -6,56 +6,53 @@ from .base import ProblemBase
 
 class AbstractModelCreator(ABC):
     @abstractmethod
-    def __init__(self, prob_id) -> None:
+    def __init__(self) -> None:
         pass
 
     @abstractmethod
-    def get_model(self) -> ProblemBase:
+    def get_model(self, prob_id: int) -> ProblemBase:
         pass
 
 
 class Phase1ModelCreator(AbstractModelCreator):
-    def __init__(self, prob_id) -> None:
-        self.prob_id = prob_id
+    def __init__(self) -> None:
         self.problems_dict = {
             1: Prob1Table,
             2: Prob2Table
         }
 
-    def get_model(self) -> ProblemBase:
-        return self.problems_dict[ self.prob_id ]
+    def get_model(self, prob_id: int) -> ProblemBase:
+        return self.problems_dict[ prob_id ]
 
 
 class Phase2ModelCreator(AbstractModelCreator):
-    def __init__(self, prob_id) -> None:
-        self.prob_id = prob_id
+    def __init__(self) -> None:
         self.problems_dict = {
             1: Prob1Table,
             2: Prob2Table
         }
 
-    def get_model(self) -> ProblemBase:
-        return self.problems_dict[ self.prob_id ]
+    def get_model(self, prob_id: int) -> ProblemBase:
+        return self.problems_dict[ prob_id ]
 
 
 class Phase3ModelCreator(AbstractModelCreator):
-    def __init__(self, prob_id) -> None:
-        self.prob_id = prob_id
+    def __init__(self) -> None:
         self.problems_dict = {
             1: Prob1Table,
             2: Prob2Table
         }
 
-    def get_model(self) -> ProblemBase:
-        return self.problems_dict[ self.prob_id ]
+    def get_model(self, prob_id: int) -> ProblemBase:
+        return self.problems_dict[ prob_id ]
 
 
 class ModelCreator():
     def __init__(self) -> None:
         self.creators_idx = {
-            1: Phase1ModelCreator,
-            2: Phase2ModelCreator,
-            3: Phase3ModelCreator,
+            1: Phase1ModelCreator(),
+            2: Phase2ModelCreator(),
+            3: Phase3ModelCreator(),
         }
     
     def get_creator(self, phase_id: int) -> AbstractModelCreator: 

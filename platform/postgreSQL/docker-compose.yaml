@@ -8,4 +8,4 @@ services:
       POSTGRES_PASSWORD: wakandata
       POSTGRES_DB: mlopsvn-marathon
     ports:
-      - 8000:8000
+      - 5432:5432

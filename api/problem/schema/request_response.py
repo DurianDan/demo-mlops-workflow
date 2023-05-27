@@ -1,27 +1,28 @@
-from pydantic import BaseModel, validator
-from typing import List, Any, Dict, Union
-from json import loads
+from pydantic import BaseModel
+from typing import Any, List, Union
 
+class BaseSchema(BaseModel):
+    id: int
+    def __getitem__(self, item):
+        return getattr(self, item)
 
-class RequestSchema(BaseModel):
+class RequestSchema(BaseSchema):
     """Data Scheme of the Request Body, that will be received by /predict/ route
 
     - `id` of the request
     - `rows` contains names of features
     - `columns` 2D array data
     """
-    id: int
     rows: List[str]
-    columns: List[List[Union[None, float]]]
+    columns: List[List[Union[None, float, int, str, bool]]]
 
 
-class ResponseSchema(BaseModel):
+class ResponseSchema(BaseSchema):
     """Data Scheme of the Response Body, that will be sent from /predict/ route
 
     - `id` of the corresponding request
     - `rows` contains names of features
     - `columns` 2D array data
     """
-    id: int
-    predictions: List[Union[None, float]]
+    predictions: List[Union[None, float, int, str, bool]]
 
